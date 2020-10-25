@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: clock;
 // include countdown.js as its own Scriptable script
-let countdown = importModule('countdown')
+const countdown = importModule('countdown')
 
 // instantiate widget
 const data = await fetchData()
@@ -20,10 +20,10 @@ function createWidget(data) {
 	lw.addSpacer()
 	
 	let now = new Date()
-	let utcOffset = now.getTimezoneOffset() * 60 * 1000
+// 	let utcOffset = now.getTimezoneOffset() * 60 * 1000
 	now = now.getTime()
 	
-	let remaining = countdown(data, now, countdown.YEARS | countdown.DAYS)
+	const remaining = countdown(data, now, countdown.YEARS | countdown.DAYS)
 	console.log(remaining)
 	const dateLine = lw.addText(`${remaining}`)
 	dateLine.font = new Font("SanFranciscoText-Regular", 27)
@@ -31,10 +31,9 @@ function createWidget(data) {
 	
 	lw.addSpacer()
 	
-	let msInDay = 1000 * 60 * 60 * 24
+	const msInDay = 1000 * 60 * 60 * 24
 	let hours = (data - now) / msInDay
-	hours = ((hours - Math.floor(hours)) * msInDay) + utcOffset + now
-	hours = new Date(hours)
+	hours = new Date(((hours - Math.floor(hours)) * msInDay) + now)
 	const timeLine = lw.addDate(hours)
 	timeLine.applyTimerStyle()
 	timeLine.rightAlignText()
@@ -54,13 +53,13 @@ async function fetchData() {
 	const resp = await request.loadJSON()
 	console.log(resp)
 	
-	var startDate = new Date(Date.UTC(...resp.startDateUTC))
+	const startDate = new Date(Date.UTC(...resp.startDateUTC))
 	console.log("startDate: " + startDate)
 	
-	var msRemainingAtStartDate = (resp.startDateCO2Budget / resp.tonsPerSecond * 1000)
+	const msRemainingAtStartDate = (resp.startDateCO2Budget / resp.tonsPerSecond * 1000)
 	console.log("msRemainingAtStartDate: " + msRemainingAtStartDate)
 	
-	var deadlineMS = startDate.getTime() + msRemainingAtStartDate
+	const deadlineMS = startDate.getTime() + msRemainingAtStartDate
 	console.log("deadlineMS: " + deadlineMS)
 	
 	return deadlineMS
