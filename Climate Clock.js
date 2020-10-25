@@ -1,8 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: clock;
-let countdown = importModule('countdown')
-
+// let countdown = importModule('countdown')
 
 // instantiate widget
 const data = await fetchData()
